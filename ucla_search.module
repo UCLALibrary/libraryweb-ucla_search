@@ -1,0 +1,114 @@
+<?php
+/**
+ * @file
+ * Defines custom search form allowing user to choose from multiple search targets.
+ */
+
+/**
+ * Define custom search form
+ */
+function ucla_search_custom_form($form, &$form_state) {
+  $form = array();
+  // #form_id apparently set by default from function name but be explicit
+  $form['#form_id'] = 'ucla_search_custom_form';
+
+  // Select (drop-down) list for user to choose where to search
+  $form['search_target'] = array (
+    '#type' => 'select',
+    '#title' => 'Choose one:',
+    '#title_display' => 'invisible',
+    '#options' => array (
+      'site' => 'Local site',
+      'melvyl' => 'Melvyl'
+    )
+  );
+
+  $form['search_terms'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Search terms',
+    '#required' => TRUE,
+    '#size' => 26,
+    '#maxlength' => 80,
+    '#default_value' => ''
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'OK',
+    '#id' => 'ucla-search-custom-form-submit',
+  );
+
+  return $form;
+}
+
+/**
+ * Handle the form when submitted
+ * Implements FORM_ID_submit(), mentioned in passing at
+ * http://api.drupal.org/api/drupal/developer!topics!forms_api_reference.html/7#submit_property
+ */
+function ucla_search_custom_form_submit($form, &$form_state) {
+  //dsm($form);
+  //dsm($form_state);
+
+  $search_terms = $form['search_terms']['#value'];
+
+  switch ($form['search_target']['#value']) {
+    case "site":
+      // Call the native Drupal site search form
+      $form_state['redirect'] = 'search/node/' . trim($search_terms);
+      break;
+    case "melvyl":
+      $target_url = 'http://ucla.worldcat.org/search?qt=wc_org_ucla&q=';
+      // Replacing space with plus in search is not needed or desired for WorldCat
+      $target_url .= drupal_encode_path($search_terms);
+      //dsm($target_url);
+      // Docs say drupal_goto is for "local" URLs but works fine with absolute off-site URLs too
+      drupal_goto($path = $target_url);
+      break;
+    default:
+      drupal_set_message("WHAT???");
+  }
+}
+
+/**
+ * Implements hook_block_info() to define a new block for the custom form
+ */
+function ucla_search_block_info() {
+  $blocks['ucla_search'] = array(
+    'info' => t('UCLA Custom Search Block'),
+    'cache' => DRUPAL_NO_CACHE
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view() to add the custom form to the new block
+ */
+function ucla_search_block_view( $delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'ucla_search':
+      $block['title'] = 'UCLA Search';
+      $block['content'] = drupal_render(drupal_get_form('ucla_search_custom_form'));
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_menu() 
+ */
+// not needed if using this in a block instead
+/**************************
+function ucla_search_menu() {
+  $items['customsearch/ucla'] = array(
+    'title' => 'UCLA custom search',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ucla_search_custom_form'),
+    'access callback' => TRUE
+  );
+
+  return $items;
+}
+**************************/
+

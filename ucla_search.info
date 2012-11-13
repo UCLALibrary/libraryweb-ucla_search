@@ -1,0 +1,4 @@
+name = UCLA Search
+description = Custom search form allowing users to choose what target to search.
+core = 7.x
+
