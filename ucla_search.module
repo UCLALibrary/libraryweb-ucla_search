@@ -18,14 +18,13 @@ function ucla_search_custom_form($form, &$form_state) {
     '#title' => 'Choose one:',
     '#title_display' => 'invisible',
     '#options' => array (
-      'site' => 'Local site',
+      'site' => 'Site search',
       'melvyl' => 'Melvyl'
     )
   );
 
   $form['search_terms'] = array(
     '#type' => 'textfield',
-    '#title' => 'Search terms',
     '#required' => TRUE,
     '#size' => 26,
     '#maxlength' => 80,
