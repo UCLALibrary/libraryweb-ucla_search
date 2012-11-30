@@ -19,7 +19,8 @@ function ucla_search_custom_form($form, &$form_state) {
     '#title_display' => 'invisible',
     '#options' => array (
       'site' => 'Site search',
-      'melvyl' => 'Melvyl'
+      'melvyl' => 'Melvyl',
+      'catalog' => 'Library Catalog'
     )
   );
 
@@ -60,8 +61,16 @@ function ucla_search_custom_form_submit($form, &$form_state) {
       $target_url = 'http://ucla.worldcat.org/search?qt=wc_org_ucla&q=';
       // Replacing space with plus in search is not needed or desired for WorldCat
       $target_url .= drupal_encode_path($search_terms);
-      //dsm($target_url);
       // Docs say drupal_goto is for "local" URLs but works fine with absolute off-site URLs too
+      drupal_goto($path = $target_url);
+      break;
+    case "catalog":
+      $target_url = 'http://catalog.library.ucla.edu/cgi-bin/Pwebrecon.cgi?DB=local&Search_Arg=';
+      $extra_params = '&Search_Code=GKEY^&SL=None&CNT=50&HIST=1';
+      // Need to replace space with plus for library catalog, but do NOT url encode the terms
+      $target_url .= str_replace(' ', '+', $search_terms);
+      // Extra params must be after the search terms in the URL
+      $target_url .= $extra_params;
       drupal_goto($path = $target_url);
       break;
     default:
