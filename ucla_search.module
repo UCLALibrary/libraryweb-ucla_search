@@ -52,8 +52,22 @@ function ucla_search_custom_form_submit($form, &$form_state) {
   //dsm($form_state);
 
   $search_terms = $form['search_terms']['#value'];
+  $search_target = $form['search_target']['#value'];
+  $browser_ip = $_SERVER['REMOTE_ADDR'];
+  $search_date = $_SERVER['REQUEST_TIME'];
+  // $search_date is timestamp; for pretty output, use something like date('Y-m-d H:i:s T', $search_date)
 
-  switch ($form['search_target']['#value']) {
+  // Log the search info before doing the search
+  $search_info = array(
+    'search_date' => $search_date,
+    'search_target' => $search_target,
+    'search_terms' => $search_terms,
+    'browser_ip' => $browser_ip
+  );
+  db_insert('ucla_search_log')->fields($search_info)->execute();
+
+  // Format URL for target-specific search and redirect to that URL
+  switch ($search_target) {
     case "site":
       // Call the native Drupal site search form
       $form_state['redirect'] = 'search/node/' . trim($search_terms);

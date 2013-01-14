@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall functions for ucla_search module.
+ */
+
+/**
+ * Implements hook_schema().
+ * Creates ucla_search_log database table.
+ */
+function ucla_search_schema() {
+  $schema['ucla_search_log'] = array(
+    'description' => 'Stores information about searches.',
+    'fields' => array(
+      'search_date' => array(
+        'description' => 'Date & time of the search',
+        'type' => 'int',
+        'not null' => TRUE
+      ),
+      'search_target' => array(
+        'description' => 'Target system being searched',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE
+      ),
+      'search_terms' => array(
+        'description' => 'Search terms entered by user',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE
+      ),
+      'browser_ip' => array(
+        'description' => 'IP address of user',
+        'type' => 'varchar',
+        'length' => 15,
+        'not null' => TRUE
+      )
+    ),
+    'primary key' => array('search_date', 'browser_ip')
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ * Remove ucla_search_log database tables.
+ */
+function ucla_search_uninstall() {
+  db_drop_table('ucla_search_log');
+}
+    
