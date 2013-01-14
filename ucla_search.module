@@ -57,12 +57,6 @@ function ucla_search_custom_form_submit($form, &$form_state) {
   $search_date = $_SERVER['REQUEST_TIME'];
   // $search_date is timestamp; for pretty output, use something like date('Y-m-d H:i:s T', $search_date)
 
-  // Work around installation issue (can't add table via install without uninstalling module)
-  if (! db_table_exists('ucla_search_log')) {
-    // Call function in install module
-    ucla_search_schema();
-  }
-
   // Log the search info before doing the search
   $search_info = array(
     'search_date' => $search_date,
