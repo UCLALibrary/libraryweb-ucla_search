@@ -53,7 +53,9 @@ function ucla_search_custom_form_submit($form, &$form_state) {
 
   $search_terms = $form['search_terms']['#value'];
   $search_target = $form['search_target']['#value'];
-  $browser_ip = $_SERVER['REMOTE_ADDR'];
+  // If behind varnish, REMOTE_ADDR = IP of the varnish server
+  // and HTTP_X_FORWARDED_FOR = IP of remote user
+  $browser_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
   $search_date = $_SERVER['REQUEST_TIME'];
   // $search_date is timestamp; for pretty output, use something like date('Y-m-d H:i:s T', $search_date)
 
