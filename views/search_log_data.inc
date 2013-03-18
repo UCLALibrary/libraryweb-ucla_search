@@ -14,7 +14,10 @@ $view->disabled = FALSE; /* Edit this to true to make a default view disabled in
 $handler = $view->new_display('default', 'Master', 'default');
 $handler->display->display_options['title'] = 'Search Log Data';
 $handler->display->display_options['use_more_always'] = FALSE;
-$handler->display->display_options['access']['type'] = 'none';
+$handler->display->display_options['access']['type'] = 'role';
+$handler->display->display_options['access']['role'] = array(
+  2 => '2',
+);
 $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -90,6 +93,7 @@ $handler->display->display_options['filters']['search_date']['expose']['label'] 
 $handler->display->display_options['filters']['search_date']['expose']['description'] = 'Search dates, in YYYY-MM-DD format';
 $handler->display->display_options['filters']['search_date']['expose']['operator'] = 'search_date_op';
 $handler->display->display_options['filters']['search_date']['expose']['identifier'] = 'search_date';
+$handler->display->display_options['filters']['search_date']['expose']['remember'] = TRUE;
 $handler->display->display_options['filters']['search_date']['expose']['remember_roles'] = array(
   2 => '2',
   1 => 0,
@@ -113,6 +117,7 @@ $handler->display->display_options['filters']['search_target']['expose']['rememb
 $handler->display->display_options['filters']['search_target']['is_grouped'] = TRUE;
 $handler->display->display_options['filters']['search_target']['group_info']['label'] = 'Search Target';
 $handler->display->display_options['filters']['search_target']['group_info']['identifier'] = 'search_target';
+$handler->display->display_options['filters']['search_target']['group_info']['remember'] = 1;
 $handler->display->display_options['filters']['search_target']['group_info']['group_items'] = array(
   1 => array(
     'title' => 'Site',
@@ -144,7 +149,20 @@ $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = 'Search log data';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['context'] = 0;
+
+/* Display: Data export */
+$handler = $view->new_display('views_data_export', 'Data export', 'views_data_export_1');
+$handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+$handler->display->display_options['pager']['type'] = 'none';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['style_plugin'] = 'views_data_export_xls';
+$handler->display->display_options['style_options']['provide_file'] = 1;
+$handler->display->display_options['style_options']['parent_sort'] = 0;
+$handler->display->display_options['path'] = 'search-log-data/export';
+$handler->display->display_options['displays'] = array(
+  'page' => 'page',
+  'default' => 0,
+);
 // End of exported code
 
 $views[$view->name] = $view;
-
