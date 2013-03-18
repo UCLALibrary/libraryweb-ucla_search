@@ -69,7 +69,7 @@ $handler->display->display_options['fields']['search_date']['id'] = 'search_date
 $handler->display->display_options['fields']['search_date']['table'] = 'ucla_search_log';
 $handler->display->display_options['fields']['search_date']['field'] = 'search_date';
 $handler->display->display_options['fields']['search_date']['date_format'] = 'custom';
-$handler->display->display_options['fields']['search_date']['custom_date_format'] = 'Y-m-d';
+$handler->display->display_options['fields']['search_date']['custom_date_format'] = 'Y-m-d H:i:s';
 /* Field: Search data: Search Target */
 $handler->display->display_options['fields']['search_target']['id'] = 'search_target';
 $handler->display->display_options['fields']['search_target']['table'] = 'ucla_search_log';
