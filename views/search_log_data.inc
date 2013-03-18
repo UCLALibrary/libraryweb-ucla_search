@@ -95,7 +95,7 @@ $handler->display->display_options['filters']['search_date']['expose']['operator
 $handler->display->display_options['filters']['search_date']['expose']['identifier'] = 'search_date';
 $handler->display->display_options['filters']['search_date']['expose']['remember'] = TRUE;
 $handler->display->display_options['filters']['search_date']['expose']['remember_roles'] = array(
-  2 => '2',
+  2 => 0,
   1 => 0,
   3 => 0,
 );
@@ -117,7 +117,6 @@ $handler->display->display_options['filters']['search_target']['expose']['rememb
 $handler->display->display_options['filters']['search_target']['is_grouped'] = TRUE;
 $handler->display->display_options['filters']['search_target']['group_info']['label'] = 'Search Target';
 $handler->display->display_options['filters']['search_target']['group_info']['identifier'] = 'search_target';
-$handler->display->display_options['filters']['search_target']['group_info']['remember'] = 1;
 $handler->display->display_options['filters']['search_target']['group_info']['group_items'] = array(
   1 => array(
     'title' => 'Site',
