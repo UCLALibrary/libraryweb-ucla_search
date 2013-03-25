@@ -64,6 +64,16 @@ $handler->display->display_options['style_options']['info'] = array(
     'empty_column' => 0,
   ),
 );
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['content'] = 'Example Search: Fill out both boxes and keep in mind the log is tracking each day starting at Midnight 00:00:00. If you want to see the search log for one day, March 20, 2013, you would fill the form out as follows to make sure you gather the entire day: 
+<strong>Search Date</strong> 2013-03-20 
+<strong>And</strong> 2013-03-21 
+
+To export data to Excel, click the small orange XLS button below the data. Excel may show a warning message about file formats; this is OK, click "Yes" to show the data in Excel. You may want to use Excel\'s "Save As..." function to re-save the file in a real Excel format. ';
+$handler->display->display_options['header']['area']['format'] = 'filtered_html';
 /* Field: Search data: Search Date */
 $handler->display->display_options['fields']['search_date']['id'] = 'search_date';
 $handler->display->display_options['fields']['search_date']['table'] = 'ucla_search_log';
