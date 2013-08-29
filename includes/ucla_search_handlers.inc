@@ -59,7 +59,7 @@ function ucla_search_melvyl($search_info) {
 
 function ucla_search_oac($search_info) {
   // Online Archive of California
-  $target_url = 'http://http://www.oac.cdlib.org/search?query=';
+  $target_url = 'http://www.oac.cdlib.org/search?query=';
   // Need to replace space with plus for subject guides, but do NOT url encode the terms
   $target_url .= str_replace(' ', '+', $search_info['search_terms']);
   drupal_goto($path = $target_url);
