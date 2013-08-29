@@ -48,57 +48,30 @@ function ucla_search_custom_form($form, &$form_state) {
  * http://api.drupal.org/api/drupal/developer!topics!forms_api_reference.html/7#submit_property
  */
 function ucla_search_custom_form_submit($form, &$form_state) {
-  //dsm($form);
-  //dsm($form_state);
+  module_load_include('inc', 'ucla_search', 'includes/ucla_search_logger');
+  module_load_include('inc', 'ucla_search', 'includes/ucla_search_handlers');
 
-  $search_terms = $form['search_terms']['#value'];
+  // Collect form info
   $search_target = $form['search_target']['#value'];
+  $search_terms = $form['search_terms']['#value'];
+  $search_date = $_SERVER['REQUEST_TIME'];
   // If behind varnish, REMOTE_ADDR = IP of the varnish server
   // and HTTP_X_FORWARDED_FOR = IP of remote user
   $browser_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
-  $search_date = $_SERVER['REQUEST_TIME'];
-  // $search_date is timestamp; for pretty output, use something like date('Y-m-d H:i:s T', $search_date)
 
-  // Log the search info before doing the search
-  $search_info = array(
-    'search_date' => $search_date,
+  // Put form info into array expected by search logger / handlers
+  $search_info = array (
     'search_target' => $search_target,
     'search_terms' => $search_terms,
-    'browser_ip' => $browser_ip
+    'search_date' => $search_date,
+    'browser_ip' => $browser_ip,
   );
-  db_insert('ucla_search_log')->fields($search_info)->execute();
 
-  // Format URL for target-specific search and redirect to that URL
-  switch ($search_target) {
-    case "site":
-      // Call the native Drupal site search form
-      $form_state['redirect'] = 'search/node/' . trim($search_terms);
-      break;
-    case "melvyl":
-      $target_url = 'http://ucla.worldcat.org/search?qt=wc_org_ucla&q=';
-      // Replacing space with plus in search is not needed or desired for WorldCat
-      $target_url .= drupal_encode_path($search_terms);
-      // Docs say drupal_goto is for "local" URLs but works fine with absolute off-site URLs too
-      drupal_goto($path = $target_url);
-      break;
-    case "catalog":
-      $target_url = 'http://catalog.library.ucla.edu/cgi-bin/Pwebrecon.cgi?DB=local&Search_Arg=';
-      $extra_params = '&Search_Code=GKEY^&SL=None&CNT=50&HIST=1';
-      // Need to replace space with plus for library catalog, but do NOT url encode the terms
-      $target_url .= str_replace(' ', '+', $search_terms);
-      // Extra params must be after the search terms in the URL
-      $target_url .= $extra_params;
-      drupal_goto($path = $target_url);
-      break;
-    case "guides":
-      $target_url = 'http://guides.library.ucla.edu/search.php?iid=261&c=0&search=';
-      // Need to replace space with plus for subject guides, but do NOT url encode the terms
-      $target_url .= str_replace(' ', '+', $search_terms);
-      drupal_goto($path = $target_url);
-      break;
-    default:
-      drupal_set_message("WHAT???");
-  }
+  // Log the search info before doing the search
+  ucla_search_log_search($search_info); 
+
+  // Send search info to router, which will do the actual search
+  ucla_search_route_search($search_info);
 }
 
 /**
