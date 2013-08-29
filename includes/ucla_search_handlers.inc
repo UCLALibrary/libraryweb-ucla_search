@@ -12,17 +12,20 @@ function ucla_search_route_search($search_info) {
   // ... is there a better choice?
 
   switch ($search_info['search_target']) {
-    case "site":
-      ucla_search_site($search_info);
-      break;
-    case "melvyl":
-      ucla_search_melvyl($search_info);
-      break;
     case "catalog":
       ucla_search_catalog($search_info);
       break;
     case "guides":
       ucla_search_guides($search_info);
+      break;
+    case "melvyl":
+      ucla_search_melvyl($search_info);
+      break;
+    case "oac":
+      ucla_search_oac($search_info);
+      break;
+    case "site":
+      ucla_search_site($search_info);
       break;
     default:
       // TODO: change this to write error to log
@@ -54,6 +57,13 @@ function ucla_search_melvyl($search_info) {
   drupal_goto($path = $target_url);
 }
 
+function ucla_search_oac($search_info) {
+  // Online Archive of California
+  $target_url = 'http://http://www.oac.cdlib.org/search?query=';
+  // Need to replace space with plus for subject guides, but do NOT url encode the terms
+  $target_url .= str_replace(' ', '+', $search_info['search_terms']);
+  drupal_goto($path = $target_url);
+}
 function ucla_search_site($search_info) {
   $target_url = 'search/node/' . trim($search_info['search_terms']);
   drupal_goto($path = $target_url);
