@@ -101,13 +101,26 @@ function ucla_search_sfx($search_info) {
   $target_url .= $extra_params;
   // Replace space with plus, but do NOT url encode the terms
   $target_url .= '&param_pattern_value=' . str_replace(' ', '+', $search_info['search_terms']);
-  // TEMP TEST
-  $target_url .= '&param_textSearchType_value=exactMatch'; // startsWith or contains or exactMatch
+  if ($search_info['search_type']) { 
+    $target_url .= '&param_textSearchType_value=' . map_sfx_search_type($search_info['search_type']);
+  }
   drupal_goto($path = $target_url);
 }
 
 function ucla_search_site($search_info) {
   $target_url = 'search/node/' . trim($search_info['search_terms']);
   drupal_goto($path = $target_url);
+}
+
+// Utility functions
+
+function map_sfx_search_type($ucla_value) {
+  // ucla form value => sfx required value 
+  $mappings = array (
+    'within' => 'contains',
+    'exact' => 'exactMatch',
+    'starts' => 'startsWith',
+  );
+  return $mappings[$ucla_value];
 }
 
