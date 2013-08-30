@@ -9,11 +9,14 @@
  */
 function ucla_search_route_search($search_info) {
   // Docs say drupal_goto is for "local" URLs but works fine with absolute off-site URLs too
-  // ... is there a better choice?
+  // ... is there a better choice?  Maybe drupal_http_request for GET/POST consistency?
 
   switch ($search_info['search_target']) {
     case "catalog":
       ucla_search_catalog($search_info);
+      break;
+    case "database":
+      ucla_search_database($search_info);
       break;
     case "guides":
       ucla_search_guides($search_info);
@@ -43,6 +46,30 @@ function ucla_search_catalog($search_info) {
   $target_url .= str_replace(' ', '+', $search_info['search_terms']);
   // Extra params must be after the search terms in the URL
   $target_url .= $extra_params;
+  drupal_goto($path = $target_url);
+}
+
+function ucla_search_database($search_info) {
+/*****
+  // 2013-08-30 akohler: having trouble getting POST to work, but
+  //   keeping this code as a sample in case other forms require POST.
+  $target_url = 'http://unitdev.library.ucla.edu/search/databases-title-result-AK.cfm';
+  // This currently requires an HTTP POST, so can't use drupal_goto which is GET only
+  $headers = array('Content-Type' => 'application/x-www-form-urlencoded');    // required for POST
+  $data = array(
+    'FORM.keyword' => $search_info['search_terms'],
+    'FORM.method' => 'contains', // contains or starts // TEMP TEST
+  );
+  watchdog('SEARCH_POST', http_build_query($data));
+  $response = drupal_http_request($target_url, $headers, 'POST', http_build_query($data));
+  watchdog('SEARCH_RESPONSE', $response->request . ' *** ' . $response->redirect_code);
+*****/
+
+  $target_url = 'http://unitproj.library.ucla.edu/search/databases-title-result.cfm';
+  // Replace space with plus, but do NOT url encode the terms
+  $target_url .= '?keyword=' . str_replace(' ', '+', $search_info['search_terms']);
+  // TEMP TEST
+  $target_url .= '&method=contains'; // contains or starts
   drupal_goto($path = $target_url);
 }
 
