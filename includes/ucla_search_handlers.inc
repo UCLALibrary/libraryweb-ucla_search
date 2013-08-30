@@ -68,8 +68,9 @@ function ucla_search_database($search_info) {
   $target_url = 'http://unitproj.library.ucla.edu/search/databases-title-result.cfm';
   // Replace space with plus, but do NOT url encode the terms
   $target_url .= '?keyword=' . str_replace(' ', '+', $search_info['search_terms']);
-  // TEMP TEST
-  $target_url .= '&method=contains'; // contains or starts
+  if ($search_info['search_type']) { 
+    $target_url .= '&method=' . map_database_search_type($search_info['search_type']);
+  }
   drupal_goto($path = $target_url);
 }
 
@@ -113,6 +114,15 @@ function ucla_search_site($search_info) {
 }
 
 // Utility functions
+
+function map_database_search_type($ucla_value) {
+  // ucla form value => databases required value 
+  $mappings = array (
+    'within' => 'contains',
+    'starts' => 'starts',
+  );
+  return $mappings[$ucla_value];
+}
 
 function map_sfx_search_type($ucla_value) {
   // ucla form value => sfx required value 

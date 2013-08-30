@@ -25,7 +25,6 @@ function ucla_search_test_form($form, &$form_state) {
       'oac' => 'OAC (TESTING)',
       'sfx' => 'SFX (TESTING)',
       'database' => 'Database Titles (TESTING)',
-      'EXTRA' => 'EXTRA (TESTING)',
     )
   );
 
