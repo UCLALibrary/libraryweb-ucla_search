@@ -8,6 +8,13 @@
  * Logs search info to database.
  */
 function ucla_search_log_search($search_info) {
-  db_insert('ucla_search_log')->fields($search_info)->execute();
+  // Only certain elements are logged
+  $data = array (
+    'search_target' => $search_info['search_target'],
+    'search_terms' => $search_info['search_terms'],
+    'search_date' => $search_info['search_date'],
+    'browser_ip' => $search_info['browser_ip'],
+  );
+  db_insert('ucla_search_log')->fields($data)->execute();
 }
 
