@@ -33,6 +33,9 @@ function ucla_search_route_search($search_info) {
     case "site":
       ucla_search_site($search_info);
       break;
+    case "tomcat":
+      ucla_search_catalog_tomcat($search_info);
+      break;
     default:
       // TODO: change this to write error to log
       drupal_set_message("WHAT???");
@@ -40,8 +43,8 @@ function ucla_search_route_search($search_info) {
 }
 
 function ucla_search_catalog($search_info) {
-  $target_url = 'http://catalog.library.ucla.edu/cgi-bin/Pwebrecon.cgi?DB=local&Search_Arg=';
-  $extra_params = '&Search_Code=GKEY^&SL=None&CNT=50&HIST=1';
+  $target_url = 'http://catalog.library.ucla.edu/vwebv/search?searchArg=';
+  $extra_params = '&searchCode=GKEY^&searchType=1';
   // Replace space with plus, but do NOT url encode the terms
   $target_url .= str_replace(' ', '+', $search_info['search_terms']);
   // Extra params must be after the search terms in the URL
