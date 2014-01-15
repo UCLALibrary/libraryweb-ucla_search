@@ -33,9 +33,6 @@ function ucla_search_route_search($search_info) {
     case "site":
       ucla_search_site($search_info);
       break;
-    case "tomcat":
-      ucla_search_catalog_tomcat($search_info);
-      break;
     default:
       // TODO: change this to write error to log
       drupal_set_message("WHAT???");
