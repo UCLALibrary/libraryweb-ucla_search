@@ -73,6 +73,16 @@ function ucla_search_views_data() {
     ),
   );
 
+  // search_form column
+  $data['ucla_search_log']['search_form'] = array(
+    'title' => t('Search Form'),
+    'help' => t('Form which submitted the search'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+  );
+
   return $data;
 }
 

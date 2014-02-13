@@ -92,6 +92,10 @@ $handler->display->display_options['fields']['search_terms']['field'] = 'search_
 $handler->display->display_options['fields']['browser_ip']['id'] = 'browser_ip';
 $handler->display->display_options['fields']['browser_ip']['table'] = 'ucla_search_log';
 $handler->display->display_options['fields']['browser_ip']['field'] = 'browser_ip';
+/* Field: Search data: Search Form */
+$handler->display->display_options['fields']['search_form']['id'] = 'search_form';
+$handler->display->display_options['fields']['search_form']['table'] = 'ucla_search_log';
+$handler->display->display_options['fields']['search_form']['field'] = 'search_form';
 /* Filter criterion: Search data: Search Date */
 $handler->display->display_options['filters']['search_date']['id'] = 'search_date';
 $handler->display->display_options['filters']['search_date']['table'] = 'ucla_search_log';
