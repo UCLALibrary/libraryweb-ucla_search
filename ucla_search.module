@@ -58,6 +58,8 @@ function ucla_search_custom_form_submit($form, &$form_state) {
   // If behind varnish, REMOTE_ADDR = IP of the varnish server
   // and HTTP_X_FORWARDED_FOR = IP of remote user
   $browser_ip = (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']);
+  // Use simpler string for search_form in logging table
+  $search_form = 'ucla_search';
 
   // Put form info into array expected by search logger / handlers
   $search_info = array (
@@ -65,6 +67,7 @@ function ucla_search_custom_form_submit($form, &$form_state) {
     'search_terms' => $search_terms,
     'search_date' => $search_date,
     'browser_ip' => $browser_ip,
+    'search_form' => $search_form,
   );
 
   // Log the search info before doing the search
