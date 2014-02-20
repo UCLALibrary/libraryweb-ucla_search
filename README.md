@@ -1,5 +1,4 @@
-This module provides a simple search form for searching specific targets (site and external).
+This module provides routines for building searches to various targets, and for logging searches to database.
 
-It also has logic for logging searches to database, and for connecting the UI to the 
-form handler(s) which route the search to the correct target.
+Any search UI should be implemented as a separate module, with this ucla_search module as a dependency.
 

@@ -103,24 +103,11 @@ function ucla_search_update_7100() {
  * Update logging table by adding new column for form id.
  */
 function ucla_search_update_7101() {
-/*
-  $search_form_field = array(
-    'description' => 'ID of the form the user submitted',
-    'type' => 'varchar',
-    'length' => 20,
-    'not null' => TRUE,
-    'default' => 'ucla_search'
-  );
-*/
-
   // Get complete schema (defined in hook_schema above)
   $table = 'ucla_search_log';
   $schema = drupal_get_schema_unprocessed('ucla_search', $table);
   // Add new fields, defined in schema above
   $field = 'search_form';
   db_add_field($table, $field, $schema['fields'][$field]);
-
-  // Add search_form field to ucla_search_log table
-  // db_add_field('ucla_search_log', 'search_form', $search_form_field);
 }
 
